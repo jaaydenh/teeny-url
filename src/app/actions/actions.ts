@@ -27,7 +27,7 @@ export async function createLink(prevState: any, formData: FormData) {
 
   const alias = formData.get('alias')
   if (alias) {
-    const shortendUrl = await kv.get(alias.toString()) as string;
+    const shortendUrl = await kv.hget('links', alias.toString()) as string;
     if (shortendUrl) {
       return {
         message: "Alias is not available"

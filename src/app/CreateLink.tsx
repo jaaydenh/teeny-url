@@ -66,22 +66,20 @@ function CreateLink() {
           </div>
         </div>
       )}
-      {state?.shortLink === '' && (
-        <div className="mb-10">
-          <label htmlFor="alias" className="mb-3">
-            <span className="text-lg font-semibold">Customize your link</span>
-          </label>
-          <div>
-            <input
-              id="alias"
-              name="alias"
-              type="text"
-              placeholder="Enter alias"
-              className="mt-4 block w-full rounded-lg border-2 border-gray-200 bor px-4 py-3 text-lg font-bold text-blue-600 focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50"
-            />
-          </div>
+      <div className="mb-10">
+        <label htmlFor="alias" className="mb-3">
+          <span className="text-lg font-semibold">Customize your link</span>
+        </label>
+        <div>
+          <input
+            id="alias"
+            name="alias"
+            type="text"
+            placeholder="Enter alias"
+            className="mt-4 block w-full rounded-lg border-2 border-gray-200 bor px-4 py-3 text-lg font-bold text-blue-600 focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50"
+          />
         </div>
-      )}
+      </div>
       <div>
         {state?.shortLink ? (
           <button
