@@ -8,7 +8,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next()
   }
   console.log('pathname: ' + pathname)
-  const shortendUrl = await kv.get(pathname) as string;
+  const shortendUrl = await kv.hget('links', pathname) as string;
   console.log('shortendUrl: ' + shortendUrl)
   if (shortendUrl && typeof shortendUrl === 'string') {
     const statusCode = 308

@@ -1,4 +1,4 @@
-import CreateLink from './CreateLink';
+import EditLinks from './EditLinks';
 
 export default function Home() {
   return (
@@ -7,7 +7,7 @@ export default function Home() {
         <h1 className="text-7xl font-black text-white mb-8">TeenyURL</h1>
         <div className="rounded-lg bg-white">
           <div className="py-4 px-5">
-            <CreateLink />
+            <EditLinks />
           </div>
         </div>
       </div>

@@ -1,10 +1,11 @@
 'use client';
 
 import { useFormState } from 'react-dom';
+import Link from 'next/link';
 
 import { createLink } from '../app/actions/actions';
 
-function CreateLink({ domain }: { domain: string }) {
+function CreateLink() {
   const [state, formAction] = useFormState(createLink, {
     message: '',
     shortLink: '',
@@ -97,6 +98,16 @@ function CreateLink({ domain }: { domain: string }) {
             Shorten URL
           </button>
         )}
+      </div>
+      <div className="mt-10">
+        <Link href="/edit">
+          <button
+            type="submit"
+            className="items-center  gap-x-2 rounded-lg border border-transparent bg-blue-600 px-8 py-4 text-lg font-bold text-white hover:bg-blue-700 disabled:pointer-events-none disabled:opacity-50 w-full"
+          >
+            My Links
+          </button>
+        </Link>
       </div>
     </form>
   );

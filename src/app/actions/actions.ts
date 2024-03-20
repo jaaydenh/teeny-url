@@ -7,12 +7,7 @@ import { z } from 'zod'
 
 const schema = z.object({
   longUrl: z.string().url({ message: 'Invalid url' }),
-  // alias: z
-  //   .union([z.string().length(0), z.string().min(5), z.string().max(30)])
-  //   .optional()
-  //   .transform(e => e === "" ? undefined : e)
   alias: z.optional(z.string().max(30, { message: 'Alias must not be greater than 30 characters' }).regex(new RegExp(/^[.~a-zA-Z0-9_-]*$/), { message: 'Alias must contain url safe characters' }))
-  // .min(5, { message: 'Alias must be a minimum of 5 characters' })
 })
 
 export async function createLink(prevState: any, formData: FormData) {
@@ -41,10 +36,11 @@ export async function createLink(prevState: any, formData: FormData) {
   }
 
   try {
-    const longUrl = formData.get('longUrl')
+    const longUrl = formData.get('longUrl')?.toString()
     if (longUrl) {
       const shortLink = alias ? alias.toString() : nanoid(11);
-      await kv.set(shortLink, longUrl.toString());
+
+      await kv.hset('links', { [shortLink]: longUrl })
       console.log('shortLink: ' + shortLink)
       return {
         message: '',
@@ -57,4 +53,21 @@ export async function createLink(prevState: any, formData: FormData) {
   }
 
   revalidatePath('/')
+}
+
+export async function deleteLink(linkKey: string) {
+  try {
+    await kv.hdel('links', linkKey)
+  } catch (e) {
+    console.log(e)
+    throw new Error('Failed to delete link')
+  }
+}
+
+export async function getAllLinks() {
+  const links = await kv.hgetall('links')
+  const linksObject = JSON.parse(JSON.stringify(links))
+  const linksArray: [string, string][] = Object.entries(linksObject);
+
+  return linksArray;
 }
