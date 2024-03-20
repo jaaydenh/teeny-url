@@ -4,13 +4,11 @@ import { useFormState } from 'react-dom';
 
 import { createLink } from '../app/actions/actions';
 
-const initialState = {
-  message: '',
-  shortLink: '',
-};
-
 function CreateLink({ domain }: { domain: string }) {
-  const [state, formAction] = useFormState(createLink, initialState);
+  const [state, formAction] = useFormState(createLink, {
+    message: '',
+    shortLink: '',
+  });
 
   return (
     <form action={formAction}>
@@ -60,32 +58,45 @@ function CreateLink({ domain }: { domain: string }) {
               id="teeny-url"
               name="teenyUrl"
               type="text"
+              readOnly
               value={process.env.NEXT_PUBLIC_BASE_PATH + '/' + state?.shortLink}
               className="mt-4 block w-full rounded-lg border-2 border-gray-200 bor px-4 py-3 text-lg font-bold text-blue-600 focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50"
             />
           </div>
         </div>
       )}
-      <div className="mb-10">
-        <label htmlFor="alias" className="mb-3">
-          <span className="text-lg">Customize your link</span>
-        </label>
-        <div>
-          <input
-            id="alias"
-            type="text"
-            placeholder="Enter alias"
-            className="mt-4 block w-full rounded-lg border-2 border-gray-200 bor px-4 py-3 text-lg font-bold text-blue-600 focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50"
-          />
+      {state?.shortLink === '' && (
+        <div className="mb-10">
+          <label htmlFor="alias" className="mb-3">
+            <span className="text-lg font-semibold">Customize your link</span>
+          </label>
+          <div>
+            <input
+              id="alias"
+              name="alias"
+              type="text"
+              placeholder="Enter alias"
+              className="mt-4 block w-full rounded-lg border-2 border-gray-200 bor px-4 py-3 text-lg font-bold text-blue-600 focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50"
+            />
+          </div>
         </div>
-      </div>
+      )}
       <div>
-        <button
-          type="submit"
-          className="items-center  gap-x-2 rounded-lg border border-transparent bg-blue-600 px-8 py-4 text-lg font-bold text-white hover:bg-blue-700 disabled:pointer-events-none disabled:opacity-50 w-full"
-        >
-          Shorten URL
-        </button>
+        {state?.shortLink ? (
+          <button
+            onClick={() => window.location.reload()}
+            className="items-center  gap-x-2 rounded-lg border border-transparent bg-blue-600 px-8 py-4 text-lg font-bold text-white hover:bg-blue-700 disabled:pointer-events-none disabled:opacity-50 w-full"
+          >
+            Shorten Another
+          </button>
+        ) : (
+          <button
+            type="submit"
+            className="items-center  gap-x-2 rounded-lg border border-transparent bg-blue-600 px-8 py-4 text-lg font-bold text-white hover:bg-blue-700 disabled:pointer-events-none disabled:opacity-50 w-full"
+          >
+            Shorten URL
+          </button>
+        )}
       </div>
     </form>
   );
